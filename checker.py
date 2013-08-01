@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
 from optparse import OptionParser
+import os
 import walker
 
-import sys, os, fnmatch, re, glob
 
 def docheck():
   parser = OptionParser()
