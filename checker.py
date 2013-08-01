@@ -6,8 +6,7 @@ import sys, os, fnmatch, re, glob
 
 class Checker(object):
   def execute(self, directory, user, metafile):
-    #for dirpath in sorted(os.listdir(directory)):
-    for dirpath in sorted(glob.glob(os.path.join(directory, "T*"))):
+    for dirpath in sorted(os.listdir(directory)):
       self.check_directory(dirpath, user, metafile)
 
   def check_directory(self, path, user, metafile):
