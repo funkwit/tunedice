@@ -6,12 +6,12 @@ import sys, os, fnmatch, re, glob
 
 class Checker(object):
   def missing(self, directory, user, metafile):
-    self.check_directory(directory, user, metafile)
+    for miss in self.check_directory(directory, user, metafile):
+      yield miss
 
   def check_directory(self, path, user, metafile):
     if not os.path.isdir(path):
       return
-
     meta = os.path.join(path, metafile)
     try:
       with open(meta) as f:
@@ -22,10 +22,12 @@ class Checker(object):
       pass
 
     if glob.glob(os.path.join(path, "*.mp3")):
-      print "Missing: " + path
+      yield path
     else:
       for dirpath in sorted(os.listdir(path)):
-        self.check_directory(os.path.join(path, dirpath), user, metafile)
+        for miss in self.check_directory(os.path.join(path, dirpath), user,
+                                         metafile):
+          yield miss
 
 
 def docheck():
@@ -38,7 +40,9 @@ def docheck():
   if not args:
     raise SystemExit(parser.print_help() or 1)
   checker = Checker()
-  checker.missing(args[0], user=options.user, metafile=options.meta_file)
+  for miss in checker.missing(args[0], user=options.user,
+                              metafile=options.meta_file):
+    print "Missing: " + miss
 
 
 if __name__ == "__main__":
