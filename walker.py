@@ -7,6 +7,10 @@ class Walker(object):
     for miss in self.check_directory(directory, user, metafile, missing=True):
       yield miss
 
+  def wanted(self, directory, user, metafile):
+    for hit in self.check_directory(directory, user, metafile, missing=False):
+      yield hit
+
   def check_directory(self, path, user, metafile, missing):
     if not os.path.isdir(path):
       return
