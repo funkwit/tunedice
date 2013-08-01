@@ -11,6 +11,7 @@ subdirectory). '.dice' can contain either a user's name, if they want that music
 if they don't.
 
 For example, given:
+```
    .
    ./Allo Darlin
    ./Allo Darlin/.dice
@@ -33,6 +34,7 @@ $ cat ./Los\ Campesinos/Romance\ is\ Boring/.dice
 john
 $ cat ./Sin\ Fang/.dice
 !john
+```
 
 Then it is assumed:
 * john wants ALL of Allo Darlin/ uploaded to his locker
@@ -41,10 +43,12 @@ Then it is assumed:
 * john wants the 'Romance is Boring' album ONLY of Los Campesinos uploaded to his locker; he has not yet decided about the 'Sticking Fingers Into Sockets' album.
 
 For john to check what music he has not yet decided about:
+```
 $ tunedice/checker.py --user=john /music
 Missing: /music/Los Campesinos/Sticking Fingers Into Sockets
 Missing: /music/Widowspeak/Almanac
 Missing: /music/Widowspeak/Widowspeak
+```
 
 John should create new .dice files in each folder specified (or the level up, if he wants to make a bulk decision about
-an artist.
+an artist).
