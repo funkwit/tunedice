@@ -29,20 +29,23 @@ def docheck():
       print "Can't do hard-links yet, sorry"
       return
 
-    if head:
-      print "Deep, deal with later"
-    else:
-      if os.path.lexists(local):
-        if os.path.islink(local):
-          if os.path.samefile(local, target):
-            print "  OK: existing, nothing to do"
-          else:
-            print "  ERROR: already symlinked elsewhere!"
+    if head and not os.path.exists(head):
+      print "  Deep; need to make %s" % (head,)
+      os.makedirs(head)
+      if not os.path.isabs(target):
+        target = os.path.relpath(target, head)
+
+    if os.path.lexists(local):
+      if os.path.islink(local):
+        if os.path.samefile(local, target):
+          print "  OK: existing, nothing to do"
         else:
-          print "  ERROR: desired link already exists as a file/directory"
+          print "  ERROR: already symlinked elsewhere!"
       else:
-        os.symlink(target, local)
-        print "  OK: done!"
+        print "  ERROR: desired link already exists as a file/directory"
+    else:
+      os.symlink(target, local)
+      print "  OK: done!"
 
 
 if __name__ == "__main__":
