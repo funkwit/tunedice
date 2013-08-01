@@ -16,15 +16,15 @@ class Walker(object):
       return
     meta = os.path.join(path, metafile)
     try:
-      with open(meta) as f:
-        for line in f.readlines():
-          if line.strip() == ("!" + user):
+      f = open(meta)
+      for line in f.readlines():
+        if line.strip() == ("!" + user):
+          return
+        if line.strip() == user:
+          if missing:
             return
-          if line.strip() == user:
-            if missing:
-              return
-            else:
-              yield path
+          else:
+            yield path
     except IOError:
       pass
 
