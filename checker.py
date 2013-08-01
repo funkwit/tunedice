@@ -34,7 +34,7 @@ def docheck():
   parser = OptionParser()
   parser.add_option("-u", "--user", default=os.getenv("USER"),
                     help="User tag to look for (default to $USER)")
-  parser.add_option("-m", "--meta-file", default=".meta",
+  parser.add_option("-m", "--meta-file", default=".dice",
                     help="Filename to check")
   (options, args) = parser.parse_args()
   if not args:
