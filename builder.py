@@ -32,20 +32,27 @@ def docheck():
     if head and not os.path.exists(head):
       print "  Deep; need to make %s" % (head,)
       os.makedirs(head)
-      if not os.path.isabs(target):
-        target = os.path.relpath(target, head)
+
+    if head and not os.path.isabs(target):
+      target = os.path.relpath(target, head)
 
     if os.path.lexists(local):
       if os.path.islink(local):
-        if os.path.samefile(local, target):
-          print "  OK: existing, nothing to do"
-        else:
-          print "  ERROR: already symlinked elsewhere!"
+        try:
+          if os.path.samefile(local, target):
+            print "  OK: existing, nothing to do"
+          else:
+            print "  ERROR: already symlinked elsewhere!"
+        except OSError:
+          print "  ERROR: looks like a broken symlink."
       else:
         print "  ERROR: desired link already exists as a file/directory"
     else:
-      os.symlink(target, local)
-      print "  OK: done!"
+      try:
+        os.symlink(target, local)
+        print "  OK: done!"
+      except OSError:
+        print "  ERROR: " + e
 
 
 if __name__ == "__main__":
